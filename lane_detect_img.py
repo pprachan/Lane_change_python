@@ -5,7 +5,9 @@ import detection
 
 
 image=cv2.imread("/home/parinya/spring_17/car/python_port/positive/car2.png")
-roi,image,car=detection.cars(image)
+roi, image,box_origin,box_width=detection.get_cars(image)
+image=detection.draw_box(image,box_origin,box_width)
+
 image=detection.lanes(roi,image,car)
 
 

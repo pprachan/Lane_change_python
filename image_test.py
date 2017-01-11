@@ -2,7 +2,6 @@ import numpy as np
 import cv2
 import pickle
 
-
 image = cv2.imread("/home/parinya/spring_17/Car/Lane_change_python/positive/car2.png")
 gray = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
 contrast = cv2.equalizeHist(gray)

@@ -1,5 +1,7 @@
 import numpy as np
 import cv2
+import pickle
+import detection
 
 def get_cars(image):
     " Image Pre-processing "
@@ -36,17 +38,18 @@ def get_cars(image):
     " Draw box around car "
 
     roi = image[box_origin[1]:box_origin[1] + box_width, box_origin[0]:box_origin[0] + box_width]
+    car_center = [box_origin[0] + int(float(box_width) / 2), box_origin[1] + int(float(box_width) / 2)]
 
-    return (roi, image,box_origin,box_width)
+    return (image,box_origin,box_width,roi,car_center)
 
 def draw_box(image,box_origin,box_width):
-    cv2.rectangle(render, (box_origin[0], box_origin[1]), (box_origin[0] + box_width, box_origin[1] + box_width), (255, 0, 0), 2)
+    cv2.rectangle(image, (box_origin[0], box_origin[1]), (box_origin[0] + box_width, box_origin[1] + box_width), (255, 0, 0), 2)
     car_center = [box_origin[0] + int(float(box_width) / 2), box_origin[1] + int(float(box_width) / 2)]
-    cv2.circle(render, (car_center[0], car_center[1]), 5, (0, 0, 255), -1)
+    cv2.circle(image, (car_center[0], car_center[1]), 5, (0, 0, 255), -1)
     return (image)
 
 
-def get_lane(roi, image, car):
+def get_lane(roi):
     gray = cv2.cvtColor(roi, cv2.COLOR_BGR2GRAY)
     contrast = cv2.equalizeHist(gray)
     edges = cv2.Canny(contrast, 350, 450)
@@ -63,7 +66,6 @@ def get_lane(roi, image, car):
         theta = np.min(angle)
         rho = rayon[np.argmin(angle)]
 
-
     a = np.cos(theta)
     b = np.sin(theta)
     x0 = a * rho
@@ -75,6 +77,15 @@ def get_lane(roi, image, car):
     return (x0,x1,x2,y1,y2)
 
 
-def draw_lane(image,x1,x2,y1,y2):
-    cv2.line(image, (x1 + car[0], y1 + car[1]), (x2 + car[0], y2 + car[1]), (0, 255, 0), 2)
+def draw_lane(image,x1,x2,y1,y2,box_origin):
+    cv2.line(image, (x1 + box_origin[0], y1 + box_origin[1]), (x2 + box_origin[0], y2 + box_origin[1]), (0, 255, 0), 2)
     return(image)
+
+def derivative(my_array,rate):
+    old_value=0
+    res=[]
+    for value in my_array:
+        res0=(value-old_value)/rate
+        res.append(res0)
+    return res
+
