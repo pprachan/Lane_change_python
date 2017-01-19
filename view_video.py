@@ -1,6 +1,5 @@
 import numpy as np
 import cv2
-import detection
 import pickle
 import time
 
@@ -50,24 +49,6 @@ while (vid.isOpened()):
         car_center = [box_origin[0] + int(float(box_width) / 2), box_origin[1] + int(float(box_width) / 2)]
 
         render=image
-
-        # edge=cv2.Canny(contrast,200,400)
-        # newOriginX = 0
-        # newOriginY = 0
-        #
-        #
-        # """
-        # Checking which side (left vs.right) of the image object is on and setting ROI origin appropriately
-        # """
-
-        # if car[0] > width/2 :
-        #     roi = edge[car[0]-150:car[0]-150+car[2]+50,car[1]:car[1]+car[3]]
-        #     newOriginX = car_center[0]-150
-        #     newOriginY = car_center[1]
-        # else :
-        #     roi = edge[car_center[0]:car_center[0]+car[2] + 50, car_center[1]:car_center[1]+int(float(car[3]) / 2)]
-        #     newOriginX = car_center[0]
-        #     newOriginY = car_center[1]
 
         " Draw box around car "
         cv2.rectangle(render, (box_origin[0], box_origin[1]), (box_origin[0] + box_width, box_origin[1] + box_width), (255, 0, 0), 2)
