@@ -1,5 +1,72 @@
 # Car and lane detection 
-Performed by[Parinya Prachansiri](https://www.linkedin.com/in/pprachan)
+Performed by [Parinya Prachansiri] (https://www.linkedin.com/in/pprachan)
+
 
 ## Dependencies 
+The library used are numpy, opencv, pickle and time. 
+Pickle and time are both part of the standard python library.
+
+Numpy is a part of the Scipy stack which can be found here [Scipy](https://www.scipy.org/install.)
+
+OpenCV is a popular package for image processing, [OpenCV](http://docs.opencv.org/2.4/doc/tutorials/introduction/linux_install/linux_install.html)
+
+
+## What is this project for ? 
+The final goal of my project is to perform lane detection of surrounding cars. This is not a Lane departure warning system, we are not tracking the car where the camera is shooting from. 
+
+This is achieved in several steps :
+
+1 - Collect video sequences where a lane change is observed. Crop those sequences to a few seconds to create positive ( lane change ) and negative sample ( non lane change ).
+
+- - -
+**For each sample** 
+
+2 - Detect the car and the lane.
+
+3 - Extract the relative distance and angle between the car and the lane. 
+
+4 - Take the derivative of those two quantity to get the relative velocity and angular velocity.
+
+5 - Form a feature vector that contains [ Distance, Velocity, Angle, Angle velocity ] for each frame.
+
+6 - Take the variance of those features over the whole sequence. This will be our feature vector.
+
+- - -
+
+7 - After computing the features for each sample, feed it to a classifier. 
+
+The scripts contained in this repository perform step 2 to step 6
+
+## How to use it ?
+**cars.xml** contains the model for the Haar Cascade Classifier. Credit for [Andrew Sobal](https://github.com/andrewssobral) for training this classifier https://github.com/andrewssobral/vehicle_detection_haarcascades 
+
+**car_init.p** is a pickle file that contains coordinates to initialize the box surrounding the car and the lane. Those were extracted by running the car and lane detection on a single frame. 
+
+```console
+python video_view.py 
+```
+This script will display the car and the lane detection
+IPython is having trouble with *cv2.imshow()*, so the code won't execute using IPython or if you copy it in a Jupyter Notebook.
+
+```console
+python video_write.py 
+```
+This script will write a video where the detected car and lane are highlighted. (here it is pos_0.avi)
+
+```console
+python video_data.py 
+```
+Extract data from the video
+
+```console
+python get_features.py
+```
+Compute the 4 features from previous data (video_data.py) and dump it into a pickle file.
+
+
+
+
+
+
+
  
