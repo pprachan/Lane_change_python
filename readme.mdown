@@ -41,23 +41,23 @@ The scripts contained in this repository perform step 2 to step 6
 **cars.xml** contains the model for the Haar Cascade Classifier. Credit for [Andrew Sobal](https://github.com/andrewssobral) for training this classifier https://github.com/andrewssobral/vehicle_detection_haarcascades 
 
 **car_init.p** is a pickle file that contains coordinates to initialize the box surrounding the car and the lane. Those were extracted by running the car and lane detection on a single frame. 
-
+- - -
 ```console
 python video_view.py 
 ```
 This script will display the car and the lane detection
 IPython is having trouble with *cv2.imshow()*, so the code won't execute using IPython or if you copy it in a Jupyter Notebook.
-
+- - -
 ```console
 python video_write.py 
 ```
 This script will write a video where the detected car and lane are highlighted. (here it is pos_0.avi)
-
+- - -
 ```console
 python video_data.py 
 ```
 Extract data from the video
-
+- - -
 ```console
 python get_features.py
 ```
